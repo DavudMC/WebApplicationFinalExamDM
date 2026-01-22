@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -7,9 +8,11 @@ using WebApplicationFinalExamDM.ViewModels.MemberViewModels;
 
 namespace WebApplicationFinalExamDM.Controllers
 {
+    
     public class HomeController(AppDbContext _context) : Controller
     {
-        public async Task<IActionResult> IndexAsync()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             var members = await _context.Members.Select(x => new MemberGetVM()
             {
