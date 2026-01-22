@@ -1,14 +1,26 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using WebApplicationFinalExamDM.Contexts;
+using WebApplicationFinalExamDM.ViewModels.MemberViewModels;
 
 
 namespace WebApplicationFinalExamDM.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(AppDbContext _context) : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            var members = await _context.Members.Select(x => new MemberGetVM()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                ImagePath = x.ImagePath,
+                PositionId = x.PositionId,
+                PositionName = x.Position.Name
+            }).ToListAsync();
+            return View(members);
         }
     }
 }
