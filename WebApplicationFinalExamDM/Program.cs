@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using WebApplicationFinalExamDM.Contexts;
+
 namespace WebApplicationFinalExamDM
 {
     public class Program
@@ -8,7 +11,8 @@ namespace WebApplicationFinalExamDM
 
 
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<AppDbContext>(option =>
+            option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
             var app = builder.Build();
 
 
